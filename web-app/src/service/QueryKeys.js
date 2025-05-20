@@ -1,9 +1,7 @@
 export const QueryKeys = {
   CUSTOMERS: "CUSTOMERS",
   ADMINS:"ADMINS",
-  FORECASTS: "FORECASTS",
   CITIES: "CITIES",
-  SEARCHES: "SEARCHES",
   FAVORITES: "FAVORITES",
   USER_BY_EMAIL: (email) => "USER_" + email,
 };
