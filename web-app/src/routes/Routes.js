@@ -1,8 +1,4 @@
 import { Navigate, Route } from "react-router-dom";
-import Register from "../components/Register";
-import Login from "../components/LogIn";
-import Home from "../components/Home";
-import Favorites from "../components/Favorites";
 import AdminSignIn from "../page/admin/AdminSignIn";
 import ClientSignIn from "../page/client/ClientSignIn";
 import ClientSignUp from "../page/client/ClientSignUp";
@@ -27,7 +23,6 @@ const AppRoutes = [
   <Route key={11} path="/client/sign-in" element={<ClientSignIn />} />,
   <Route key={11} path="/client/sign-up" element={<ClientSignUp />} />,
   <Route key={11} path="/client/profile" element={<ClientProfile />} />,
-  <Route key={11} path="/favorites" element={<Favorites />} />,
 ];
 
 export default AppRoutes;
