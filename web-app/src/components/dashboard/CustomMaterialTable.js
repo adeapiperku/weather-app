@@ -12,7 +12,8 @@ export default function CustomMaterialTable({
   service,
   columns,
   errorRef,
-  disableDeleteAction 
+  disableDeleteAction,
+  disableEditAction
 }) {
   const theme = useTheme();
   const { isLoading, data, refetch } = useQuery(queryKey, () =>
@@ -80,47 +81,51 @@ export default function CustomMaterialTable({
 
   return (
     <>
-    <MaterialTable
-      style={{
-        margin: "2em",
-      }}
-      isLoading={isLoading}
-      localization={{
-        header: {
-          actions: "",
-        },
-      }}
-      title={
-        <Typography
-          variant={"h4"}
-          style={{
-            whiteSpace: "normal",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            padding: "0.5em",
-          }}
-        >
-          {title}
-        </Typography>
-      }
-      columns={columns}
-      data={data}
-      options={{
-        actionsColumnIndex: -1,
-        pageSize: 10,
-        headerStyle: {
-          backgroundColor: "transparent",
-        },
-        paginationType: "stepped",
-      }}
-      editable={{
-        onRowAdd: createRecord,
-        onRowUpdate: updateRecord,
-        onRowUpdateCancelled: resetErrors,
-        onRowAddCancelled: resetErrors,
-      }}
-      actions={actions} 
-    />
+      <MaterialTable
+        style={{
+          margin: "2em",
+        }}
+        isLoading={isLoading}
+        localization={{
+          header: {
+            actions: "",
+          },
+        }}
+        title={
+          <Typography
+            variant={"h4"}
+            style={{
+              whiteSpace: "normal",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              padding: "0.5em",
+            }}
+          >
+            {title}
+          </Typography>
+        }
+        columns={columns}
+        data={data}
+        options={{
+          actionsColumnIndex: -1,
+          pageSize: 10,
+          headerStyle: {
+            backgroundColor: "transparent",
+          },
+          paginationType: "stepped",
+        }}
+        editable={
+          disableEditAction
+            ? undefined
+            : {
+                onRowAdd: createRecord,
+                onRowUpdate: updateRecord,
+                onRowUpdateCancelled: resetErrors,
+                onRowAddCancelled: resetErrors,
+              }
+        }
+        actions={actions}
+      />
       <AlertDialog
         open={Boolean(selectedItemId)}
         onClose={handleCloseDialog}

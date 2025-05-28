@@ -143,9 +143,9 @@ export default function AdminLayout({}) {
           <IconButton color="inherit" >
           </IconButton>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            {/* <Badge badgeContent={4} color="secondary">
               <NotificationsIcon/>
-            </Badge>
+            </Badge> */}
           </IconButton>
         </Toolbar>
       </AppBar>
