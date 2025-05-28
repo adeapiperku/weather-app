@@ -1,38 +1,77 @@
-import CustomMaterialTable from "../../../components/dashboard/CustomMaterialTable";
 import { useRef } from "react";
-import { TextFieldTableCell } from "../../../components/TableCells";
-import { QueryKeys } from "../../../service/QueryKeys";
-import { AdminService } from "../../../service/AdminService";
+import { FavoritesService } from "../../../service/FavoritesService";
+import CustomMaterialTable from "../../../components/dashboard/CustomMaterialTable";
 
-const favoritesService = new AdminService();
+const favoritesService = new FavoritesService();
 
-export default function FavoritesView({}) {
-    const errorRef = useRef();
+export default function FavoritesView() {
+  const errorRef = useRef(null);
 
-    const columns = [
-      {
-        title: "Id",
-        field: "id",
-      },
-      {
-        title: "Customer",
-        field: "customer",
-        editComponent: (props) => TextFieldTableCell(props, errorRef),
-      },
-      {
-        title: "City",
-        field: "city",
-        editComponent: (props) => TextFieldTableCell(props, errorRef),
-      },
-    ];
+  const columns = [
+    {
+      title: "Customer",
+      field: "customer",
+      render: (rowData) => <div>{rowData.customerName}</div>
+    },
+    {
+      title: "Favorite Cities",
+      field: "city",
+      render: (rowData) => {
+        if (
+          !rowData.favoriteCities ||
+          !Array.isArray(rowData.favoriteCities) ||
+          rowData.favoriteCities.length === 0
+        ) {
+          return <div>No favorite cities</div>;
+        }
+        return (
+          <div>
+            {rowData.favoriteCities.map((city, index) => (
+              <div key={city.id || index}>
+                {city.cityName || "Unknown"}
+                {index < rowData.favoriteCities.length - 1 && (
+                  <hr style={{ margin: "5px 0" }} />
+                )}
+              </div>
+            ))}
+          </div>
+        );
+      }
+    }
+  ];
 
-    return (
-      <CustomMaterialTable
-        title="Manage Favorites"
-        columns={columns}
-        service={favoritesService}
-        queryKey={QueryKeys.FAVORITES}
-        errorRef={errorRef}
-      />
-    );
+  const wrappedService = {
+    findAll: async () => {
+      const response = await favoritesService.getFavoritesView();
+      const data = Array.isArray(response)
+        ? response
+        : response?.data || [];
+
+      return data.map((favorite) => ({
+        id: favorite.customerId || "N/A",
+        customerName: favorite.customerName || "Unknown",
+        favoriteCities: Array.isArray(favorite.favoriteCities)
+          ? favorite.favoriteCities
+          : [],
+        customer: favorite.customerName || "Unknown",
+        city: Array.isArray(favorite.favoriteCities)
+          ? favorite.favoriteCities
+              .map((city) => city.cityName || "Unknown City")
+              .join(", ")
+          : "No cities"
+      }));
+    }
+  };
+
+  return (
+    <CustomMaterialTable
+      title="Favorites View"
+      queryKey="favoritesView"
+      service={wrappedService}
+      columns={columns}
+      errorRef={errorRef}
+      disableDeleteAction
+      disableEditAction
+    />
+  );
 }

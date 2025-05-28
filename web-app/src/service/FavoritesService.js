@@ -18,5 +18,20 @@ export class FavoritesService extends BaseService {
    getFavoriteCities(customerId) {
      return this.client.get(`${this.requestMapping}/${customerId}`);
    }
+
+   getFavoritesByCustomerId(customerId) {
+     return this.client.get(`${this.requestMapping}/customer/${customerId}/full`);
+   }
+
+   getFavoritesView() {
+     return this.client.get(`${this.requestMapping}/view`);
+   }
+   
+   create(favorite) {
+     return this.addFavorite(favorite.customerId, favorite.city);
+   }
+
+   getFavoritesViewByCustomerId(customerId) {
+     return this.client.get(`${this.requestMapping}/view/${customerId}`);
+   }
 }
- 

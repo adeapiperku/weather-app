@@ -15,6 +15,7 @@ import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import useUser from "../../hooks/useUser";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 const appMenuItems = [
   {
@@ -34,7 +35,7 @@ const appMenuItems = [
   },
   {
     name: "Favorites",
-    Icon: PersonIcon,
+    Icon: FavoriteBorderIcon,
     link: "/admin/favorites",
   },
 ];
