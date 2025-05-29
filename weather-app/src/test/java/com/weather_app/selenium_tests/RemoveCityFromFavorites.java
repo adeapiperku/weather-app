@@ -28,7 +28,7 @@ public class RemoveCityFromFavorites {
 
             WebElement emailInput = wait.until(ExpectedConditions.elementToBeClickable(By.name("email")));
             WebElement passwordInput = driver.findElement(By.name("password"));
-            emailInput.sendKeys("adea@gmail.com");
+            emailInput.sendKeys("user@gmail.com");
             passwordInput.sendKeys("admin");
 
             WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit']"));
