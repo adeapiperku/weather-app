@@ -1,4 +1,4 @@
-package com.weather_app;
+package com.weather_app.selenium_tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
