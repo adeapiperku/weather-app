@@ -39,7 +39,7 @@ public class UserProfileTest {
             WebElement passwordInput = driver.findElement(By.id("password")); // Adjust if different
 
             System.out.println("Entering user credentials...");
-            emailInput.sendKeys("loresa@gmail.com"); // Replace with valid test user email
+            emailInput.sendKeys("user@gmail.com"); // Replace with valid test user email
             passwordInput.sendKeys("admin");  // Replace with valid test user password
 
             WebElement loginButton = driver.findElement(By.xpath("//button[contains(text(), 'Sign In')]"));
