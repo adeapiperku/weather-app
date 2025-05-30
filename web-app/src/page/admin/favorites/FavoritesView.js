@@ -63,6 +63,19 @@ export default function FavoritesView() {
     }
   };
 
+  wrappedService.delete = async (id) => {
+    const data = await wrappedService.findAll();
+    const customerData = data.find(item => item.id === id);
+    
+    if (!customerData || !customerData.favoriteCities || customerData.favoriteCities.length === 0) {
+      throw new Error('No favorites found for this customer');
+    }
+    const cityToDelete = customerData.favoriteCities[0];
+    const customerId = id;
+    
+    return favoritesService.removeFavorite(customerId, cityToDelete);
+  };
+
   return (
     <CustomMaterialTable
       title="Favorites View"
@@ -70,7 +83,7 @@ export default function FavoritesView() {
       service={wrappedService}
       columns={columns}
       errorRef={errorRef}
-      disableDeleteAction
+      disableDeleteAction={false}
       disableEditAction
     />
   );
