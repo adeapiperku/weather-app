@@ -37,50 +37,50 @@ public class ViewFavoritesTest {
 
             System.out.println("Waiting for home page...");
             wait.until(ExpectedConditions.urlContains("/client/home"));
-            
+
             System.out.println("Navigating to profile page...");
             WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
                     By.xpath("//a[contains(@href, '/client/profile')]")));
             profileLink.click();
-            
+
             System.out.println("Waiting for profile page to load...");
             wait.until(ExpectedConditions.urlContains("/client/profile"));
-            
+
             System.out.println("Clicking 'View Favorite Cities' button...");
             WebElement viewFavoritesButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(), 'View Favorite Cities')]")));
+                    By.xpath("//button[contains(., 'View Favorite Cities')]")));
             viewFavoritesButton.click();
-            
+
             System.out.println("Waiting for favorites dialog to appear...");
-            WebElement favoritesDialog = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//div[contains(@role, 'dialog')]//h2[contains(text(), 'Favorite Cities')]")));
-            
-            System.out.println("Verify that the dialog contains favorite cities");
-            List<WebElement> favoriteItems = driver.findElements(By.xpath("//div[contains(@role, 'dialog')]//li"));
-            
+            WebElement dialogTitle = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//h2[text()='Favorite Cities']")));
+
+            System.out.println("Checking for favorite cities...");
+            List<WebElement> favoriteItems = driver.findElements(
+                    By.xpath("//div[@role='dialog']//ul/li"));
+
             if (favoriteItems.size() > 0) {
-                System.out.println("Success: Found " + favoriteItems.size() + " favorite cities:");
+                System.out.println("Found " + favoriteItems.size() + " favorite cities:");
                 for (WebElement item : favoriteItems) {
                     System.out.println("- " + item.getText());
                 }
             } else {
-                WebElement noFavoritesMessage = driver.findElement(
-                        By.xpath("//div[contains(@role, 'dialog')]//*[contains(text(), 'No favorite cities')]"));
-                if (noFavoritesMessage.isDisplayed()) {
-                    System.out.println("No favorite cities found in the profile.");
+                WebElement noFavorites = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath("//div[@role='dialog']//*[contains(text(), 'No favorite cities added')]")));
+                if (noFavorites.isDisplayed()) {
+                    System.out.println("No favorite cities added.");
                 } else {
-                    System.err.println("Error: Could not find any favorite cities or 'no favorites' message.");
+                    System.err.println("Dialog opened but no content found.");
                 }
             }
             
             System.out.println("Closing the favorites dialog...");
-            WebElement closeButton = driver.findElement(
-                    By.xpath("//div[contains(@role, 'dialog')]//button[contains(text(), 'Close')]"));
+            WebElement closeButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//div[@role='dialog']//div[contains(@class, 'MuiDialogActions')]//button")));
             closeButton.click();
-            
-            wait.until(ExpectedConditions.invisibilityOf(favoritesDialog));
+            wait.until(ExpectedConditions.invisibilityOf(dialogTitle));
             System.out.println("Test completed successfully.");
-            
+
             Thread.sleep(2000);
 
         } catch (Exception e) {
