@@ -1,4 +1,4 @@
-Feature: Shtimi i qytetit në listën e të preferuarave
+Feature: Shtimi i qytetit në listën e të preferuarave (favorites)
 
   Si një përdorues i kyçur në sistem
   Dua të shtoj një qytet në listën time të preferuar
